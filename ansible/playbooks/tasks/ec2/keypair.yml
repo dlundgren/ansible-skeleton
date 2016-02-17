@@ -1,0 +1,15 @@
+---
+- name: Sync keypair
+  hosts: local
+  connection: local
+  tasks:
+    - name: sync web-ops
+      ec2_key:
+        name: aws-ops
+        state: present
+        key_material: "{{ lookup('file', 'sshkeys/aws-ops.pubkey') }}"
+        region: "{{ item }}"
+      with_items:
+        - us-west-1
+        - us-west-2
+        - us-east-1

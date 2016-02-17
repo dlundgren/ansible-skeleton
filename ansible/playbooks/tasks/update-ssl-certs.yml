@@ -1,0 +1,19 @@
+---
+- hosts: all
+  sudo: yes
+  gather_facts: no
+  pre_tasks:
+    - name: Include variables
+      include_vars: "{{ item }}"
+      with_vars_files:
+        - secrets.yml
+        - common.yml
+        - users.yml
+        - server/{{ inventory_hostname_short }}.yml
+        - env/{{ lookup('env','OPS_ENV') | default('production') }}.yml
+      tags:
+        - always
+  roles:
+    - ubuntu/shared
+    - role: config/ssl-certificates
+      ssl_cert_name: my_cert

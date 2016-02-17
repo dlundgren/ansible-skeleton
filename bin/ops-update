@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# This script is designed to git pull and then git-crypt unlock using the key in /data/ansible/git-crypt-keys/ops.key
+#
+# @TODO check for git-crypt
+
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+if [ ! -f "${ROOTDIR}/ops.key" ]; then
+    echo "Could not find ${ROOTDIR}/ops.key"
+    exit 1
+fi
+
+cd ${ROOTDIR}
+
+RESET="\033[0m"
+ARROW="\033[32m==>\033[0m"
+ERROR="\033[31m-->"
+
+# revert ANY changes made locally that are tracked by git
+echo "${ARROW} Resetting git repo to head${RESET}"
+git reset --hard
+
+echo "${ARROW} Pulling git repo${RESET}"
+git pull
+if [ $? -ne 0 ]; then
+    echo "${ERROR} failed. Please correct the problems reported by git"
+    exit 1
+fi
+
+echo "${ARROW} Unlocking the encrypted files${RESET}"
+git-crypt unlock /data/ansible/git-crypt-keys/ops.key
+
+echo "${ARROW} Updating the galaxy${RESET}"
+ansible-galaxy install --ignore-errors -r ansible/requirements.yml
+
+echo "${ARROW} Done! Have a nice day${RESET}"

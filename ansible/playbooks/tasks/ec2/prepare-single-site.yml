@@ -1,0 +1,26 @@
+---
+- hosts: all
+  sudo: yes
+  gather_facts: yes
+  pre_tasks:
+    - name: Include variables
+      include_vars: "{{ item }}"
+      with_vars_files:
+        - secrets.yml
+        - common.yml
+        - users.yml
+        - server/generic.yml
+        - env/{{ lookup('env','OPS_ENV') | default('production') }}.yml
+      tags:
+        - always
+  roles:
+    - ubuntu/shared
+    - ubuntu/server-base
+    - config/sudo
+    - config/users
+    - galaxy/colstrom.fast
+    - galaxy/HanXHX.mysql
+    - galaxy/pbuyle.php-cli
+    - galaxy/geerlingguy.apache
+    - galaxy/geerlingguy.php
+    - config/snmpd

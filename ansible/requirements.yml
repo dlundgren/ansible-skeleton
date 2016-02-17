@@ -1,0 +1,12 @@
+---
+# galaxy roles
+- src: colstrom.fast
+  path: ansible/roles/galaxy
+
+# roles that are not available on the galaxy
+# I.E.
+#- src: https://github.com/dlundgren/ansible-percona
+#  path: ansible/roles/vendor
+#  name: dlundgren.percona
+#  version: master
+

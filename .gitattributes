@@ -1,0 +1,4 @@
+ansible/vars/secrets.yml filter=git-crypt diff=git-crypt
+ansible/files/passwords/** filter=git-crypt diff=git-crypt
+ansible/files/licenses/** filter=git-crypt diff=git-crypt
+*.key filter=git-crypt diff=git-crypt

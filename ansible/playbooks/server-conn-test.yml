@@ -1,0 +1,6 @@
+---
+# This is just used to test the connection to the given server/servers
+- hosts: all
+  tasks:
+    - name: testing server access
+      command: more /etc/motd

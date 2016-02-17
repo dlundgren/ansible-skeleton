@@ -1,0 +1,23 @@
+##### Crystal Infrastructure #####
+#
+# Hosts need to be listed here by their name or IP
+# AWS hosts need the aws-ops.key
+#
+#
+#####
+
+##### GROUPS #####
+# group them here by their name
+[testing]
+tester
+
+[local]
+localhost
+
+[dbservers]
+[webservers]
+
+##### GROUP OF GROUPS #####
+[ubuntu]
+dbservers
+webservers

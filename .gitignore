@@ -1,0 +1,18 @@
+.vagrant/
+tmp/
+.idea/
+.nbproject/
+
+# python compiled objects
+*.pyc
+
+# ignore certs
+ansible/roles/galaxy
+ansible/roles/vendor
+
+# ignore development files
+ansible/vars/env/dev.yml
+
+# ensure that we ignore the root.key
+etc/ansible/root.key
+etc/local/

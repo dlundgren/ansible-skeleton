@@ -1,0 +1,22 @@
+#!/bin/sh
+
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+cd ${ROOTDIR}
+
+RESET="\033[0m"
+ARROW="\033[32m==>\033[0m"
+ERROR="\033[31m-->"
+
+# revert ANY changes made locally that are tracked by git
+echo "${ARROW} Updating the galaxy${RESET}"
+ansible-galaxy install --ignore-errors -r ansible/requirements.yml
+
+echo "${ARROW} Done! Have a nice day${RESET}"

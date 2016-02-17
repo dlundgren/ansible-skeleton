@@ -1,0 +1,20 @@
+#!/bin/sh
+
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+if [ -z "$1" ]; then
+    echo "Please provide server to configure"
+    exit 1
+fi
+host=$1
+shift
+
+
+runplay "server/$host" $host $*
