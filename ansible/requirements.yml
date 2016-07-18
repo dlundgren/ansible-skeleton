@@ -1,7 +1,6 @@
 ---
 # galaxy roles
-- src: colstrom.fast
-  path: ansible/roles/galaxy
+- colstrom.fast
 
 # roles that are not available on the galaxy
 # I.E.

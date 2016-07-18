@@ -1,3 +1,22 @@
+# (c) 2012, Daniel Hokka Zakrisson <daniel@hozac.com>
+# (c) 2013, Javier Candeira <javier@candeira.com>
+# (c) 2013, Maykel Moya <mmoya@speedyrails.com>
+#
+# This file is part of Ansible
+#
+# Ansible is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Ansible is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
+
 from ansible import utils, errors
 import os
 import errno
@@ -18,7 +37,7 @@ class LookupModule(object):
         salt_chars = ascii_letters + digits + './'
         return utils.random_password(length=8, chars=salt_chars)
 
-    def __getPaths(self, inject):
+    def get_paths(self, inject):
         paths = []
 
         for path in C.get_config(C.p, C.DEFAULTS, 'lookup_file_paths', None, [], islist=True):
@@ -74,7 +93,7 @@ class LookupModule(object):
             use_chars = paramvals['chars']
 
             # get password or create it if file doesn't exist
-            paths = self.__getPaths(inject)
+            paths = self.get_paths(inject)
             foundPath = None
             for path in paths:
                 path = utils.path_dwim(path, relpath)

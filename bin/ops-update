@@ -39,6 +39,6 @@ echo "${ARROW} Unlocking the encrypted files${RESET}"
 git-crypt unlock /data/ansible/git-crypt-keys/ops.key
 
 echo "${ARROW} Updating the galaxy${RESET}"
-ansible-galaxy install --ignore-errors -r ansible/requirements.yml
+ansible-galaxy install -i -f -p ansible/roles/galaxy -r ansible/requirements.yml
 
 echo "${ARROW} Done! Have a nice day${RESET}"

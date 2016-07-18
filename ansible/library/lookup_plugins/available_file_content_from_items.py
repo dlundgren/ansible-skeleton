@@ -1,5 +1,5 @@
 # Ansible lookup plugin for getting the first available file
-# (c) 2015, David Lundgren <dlundgren@syberisle.net>
+# (c) 2015,2016 David Lundgren <dlundgren@syberisle.net>
 
 # For each item if the path exists along the regular paths then the first found entry will used.
 #
@@ -17,7 +17,7 @@ class LookupModule(object):
     def __init__(self, basedir=None, **kwargs):
         self.basedir = basedir
 
-    def __getPaths(self, inject):
+    def get_paths(self, inject):
         paths = []
 
         paths.append(utils.path_dwim(self.basedir, ''))
@@ -38,16 +38,16 @@ class LookupModule(object):
     def run(self, terms, inject=None, **kwargs):
         ret = []
         for item in terms['items']:
-            content = self.loadFileContent(template.template_from_string('', terms['name'], {'item':item}), inject)
+            content = self.load_file_content(template.template_from_string('', terms['name'], {'item':item}), inject)
             if content:
                 item[terms['key']] = content;
                 ret.append(item)
 
         return ret
 
-    def loadFileContent(self, file, inject):
+    def load_file_content(self, file, inject):
         ret = None
-        for path in self.__getPaths(inject):
+        for path in self.get_paths(inject):
             path = os.path.join(path, 'files', file)
             if os.path.exists(path):
                 with open (path, "r") as myfile:

@@ -1,5 +1,5 @@
 # Ansible lookup plugin for getting the content of the file
-# (c) 2015, David Lundgren <dlundgren@syberisle.net>
+# (c) 2015,2016 David Lundgren <dlundgren@syberisle.net>
 #
 # MIT License
 
@@ -23,7 +23,7 @@ class LookupModule(object):
             terms = [terms]
 
         for term in terms:
-            for path in self.__getPaths(inject):
+            for path in self.get_paths(inject):
                 path = os.path.join(path, 'files', term)
                 if os.path.exists(path):
                     return [codecs.open(path, encoding="utf8").read().rstrip()]
@@ -31,7 +31,7 @@ class LookupModule(object):
             else:
                 raise errors.AnsibleError("could not locate file in lookup: %s" % term)
 
-    def __getPaths(self, inject):
+    def get_paths(self, inject):
         paths = []
 
         for path in C.get_config(C.p, C.DEFAULTS, 'lookup_file_paths', None, [], islist=True):

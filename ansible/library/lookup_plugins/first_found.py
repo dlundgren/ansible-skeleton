@@ -1,5 +1,5 @@
 # Ansible lookup plugin for getting the content of the first available file
-# (c) 2015, David Lundgren <dlundgren@syberisle.net>
+# (c) 2015,2016 David Lundgren <dlundgren@syberisle.net>
 #
 # MIT License
 
@@ -60,7 +60,7 @@ class LookupModule(object):
         else:
             total_search = terms
 
-        paths = self.__getPaths(inject)
+        paths = self.get_paths(inject)
         for fn in total_search:
             for path in paths:
                 path = os.path.join(path, fn)
@@ -72,7 +72,7 @@ class LookupModule(object):
             else:
                 return [None]
 
-    def __getPaths(self, inject):
+    def get_paths(self, inject):
         paths = []
 
         for path in C.get_config(C.p, C.DEFAULTS, 'lookup_file_paths', None, [], islist=True):
