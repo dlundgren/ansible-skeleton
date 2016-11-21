@@ -1,0 +1,27 @@
+---
+- hosts: "{{ hostip }}"
+  remote_user: "{{ user }}"
+  become: yes
+  # These tasks are written here as I don't want them to be accidentally used in any other role
+  tasks:
+    - name: Ensure admin group exists
+      group:
+        name: admin
+        state: present
+    - name: Install ansible user
+      user:
+        name: ansible
+        comment: "Ansible Ops Management"
+        group: admin
+        state: present
+    - name: Install ansible SSH key
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', 'sshkeys/ansible-ops.pub') }}"
+        manage_dir: yes
+    - name: Allow passwordless sudo for ansible
+      copy:
+        mode: "0600"
+        content: "ansible ALL=(ALL) NOPASSWD: ALL"
+        dest: /etc/sudoers.d/ansible

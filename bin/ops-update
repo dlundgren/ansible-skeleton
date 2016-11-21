@@ -13,16 +13,14 @@ fi
 
 . "${CURDIR}/common.sh"
 
-if [ ! -f "${ROOTDIR}/ops.key" ]; then
-    echo "Could not find ${ROOTDIR}/ops.key"
+OPSKEY="${ROOTDIR}/ops.key"
+
+if [ ! -f "${OPSKEY}" ]; then
+    echo "Could not find ${OPSKEY}"
     exit 1
 fi
 
 cd ${ROOTDIR}
-
-RESET="\033[0m"
-ARROW="\033[32m==>\033[0m"
-ERROR="\033[31m-->"
 
 # revert ANY changes made locally that are tracked by git
 echo "${ARROW} Resetting git repo to head${RESET}"
@@ -36,9 +34,17 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "${ARROW} Unlocking the encrypted files${RESET}"
-git-crypt unlock /data/ansible/git-crypt-keys/ops.key
+git-crypt unlock "${OPSKEY}"
+
+echo "${ARROW} Updating keys to private"
+chmod 600 inventory/files/keys/*/*/*.key >/dev/null 2>&1
+chmod 600 inventory/files/keys/*/*.key >/dev/null 2>&1
+chmod 600 inventory/files/keys/*.key >/dev/null 2>&1
 
 echo "${ARROW} Updating the galaxy${RESET}"
-ansible-galaxy install -i -f -p ansible/roles/galaxy -r ansible/requirements.yml
+ansible-galaxy install -i -f -p roles/galaxy -r requirements.yml
+
+echo "${ARROW} Updating ansible.cfg${RESET}"
+sh "${ROOTDIR}/bin/setup-ansible-cfg.sh"
 
 echo "${ARROW} Done! Have a nice day${RESET}"

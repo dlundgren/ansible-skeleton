@@ -10,8 +10,8 @@ Helps maintain infrastructure.
 
 * When pulling the repository please use ```bin/ops-update``` as this script will handle pulling in the galaxy repos
   as needed, as well as decrypting via git-crypt
-* When adding a new repository from the galaxy please add it to ansible/requirements.yml
+* When adding a new repository from the galaxy please add it to requirements.yml
 
 ### Ansible
 
-Ensure all hosts are in the etc/ansible/hosts file. If they aren't in there then ansible won't work.
+Ensure all hosts are in the inventory/hosts file. If they aren't in there then ansible won't work.

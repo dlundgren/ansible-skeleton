@@ -1,8 +1,6 @@
 ##### Crystal Infrastructure #####
 #
 # Hosts need to be listed here by their name or IP
-# AWS hosts need the aws-ops.key
-#
 #
 #####
 

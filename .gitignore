@@ -1,18 +1,21 @@
-.vagrant/
-tmp/
+# GENERIC | folders
 .idea/
 .nbproject/
+.vagrant/
+tmp/
 
-# python compiled objects
+# GENERIC | files
 *.pyc
+*.retry
 
-# ignore certs
-ansible/roles/galaxy
-ansible/roles/vendor
+# ANSIBLE | folders
+roles/galaxy
+roles/vendor
 
-# ignore development files
-ansible/vars/env/dev.yml
-
-# ensure that we ignore the root.key
-etc/ansible/root.key
-etc/local/
+# ANSIBLE | files
+# ANSIBLE | files
+/ansible.cfg
+/bootstrap.cfg
+inventory/env/dev.yml
+plays/debug.yml
+/ops.key

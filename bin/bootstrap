@@ -1,0 +1,36 @@
+#!/bin/sh
+
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+if [ -z "$1" ]; then
+    echo "Please provide an ip to run against"
+    exit 1
+fi
+ip=$1
+shift
+
+if [ -z "$1" ]; then
+    echo "Please provide the server short name"
+    exit 1
+fi
+alias=$1
+shift
+
+if [ -z "$1" ]; then
+    echo "Please provide a username for SSH"
+    exit 1
+fi
+user=$1
+shift
+
+extravars="hostip=${ip} user=${user} hostalias=${alias}"
+
+echo ANSIBLE_CONFIG="${ROOTDIR}/bootstrap.cfg" ansible-playbook -i "${ip}," "${PLAYDIR}/templates/bootstrap.yml" -k -K --extra-vars "${extravars}" $args
+env ANSIBLE_CONFIG="${ROOTDIR}/bootstrap.cfg" ansible-playbook -i "${ip}," "${PLAYDIR}/templates/bootstrap.yml" -k -K --extra-vars "${extravars}" $args
