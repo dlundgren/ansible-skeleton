@@ -5,12 +5,12 @@ hostfile = ##PWD##/inventory/hosts
 roles_path = ##PWD##/roles
 library = ##PWD##/plays/_lib/modules
 lookup_plugins = ##PWD##/plays/_lib/lookup_plugins
-lookup_file_paths = ##PWD##/inventory,##PWD##/inventory/files
+lookup_file_paths = ##PWD##/inventory,##PWD##/files
 lookup_vars_paths = ##PWD##/inventory
 
 ansible_connection=paramiko
 
-private_key_file = ##PWD##/inventory/files/keys/web-ops.key
+private_key_file = ##PWD##/files/keys/web-ops.key
 remote_user = ansible
 
 # disable "use apt module..." when using shell: apt
