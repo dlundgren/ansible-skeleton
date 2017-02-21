@@ -5,16 +5,17 @@
 CURDIR=$(dirname $0)
 ROOTDIR=$(cd ${CURDIR}/.. && pwd)
 PLAYDIR=$ROOTDIR/plays
+ROLEDIR=$ROOTDIR/roles
 VARDIR=$ROOTDIR/inventory
+CMD=
+RESET="\033[0m"
+ARROW="\033[32m==>\033[0m"
+ERROR="\033[31m-->"
 
 if [ -z $(which ansible-playbook) ]; then
   echo "Can't find ansible-playbook in the path."
   exit 1
 fi
-
-RESET="\033[0m"
-ARROW="\033[32m==>\033[0m"
-ERROR="\033[31m-->"
 
 # Allow the user to change the location of the ansible configuration
 # This allows a bastion host to be used
@@ -67,9 +68,9 @@ runit() {
   shift
   args=$*
 
-#  echo ANSIBLE_CONFIG="${CONFIG_FILE}" ansible-playbook -i "${HOSTS_FILE}" "${playbook}" --limit "$group" $args
+  echo ANSIBLE_CONFIG="${CONFIG_FILE}" ansible-playbook -i "${HOSTS_FILE}" "${playbook}" $EXTRA --limit "$group" $args
   #env ANSIBLE_CONFIG="${CONFIG_FILE}"
-  ansible-playbook "${playbook}" --limit "$group" $args
+  ansible-playbook "${playbook}" --extra-vars "$EXTRA" --limit "$group" $args
 }
 
 runwithoutlimit() {
