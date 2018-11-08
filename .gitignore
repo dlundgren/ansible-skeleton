@@ -2,20 +2,20 @@
 .idea/
 .nbproject/
 .vagrant/
+vagrant-env.yml
 tmp/
 
 # GENERIC | files
 *.pyc
 *.retry
+ssh.cfg
+ansible.cfg
+bootstrap.cfg
 
 # ANSIBLE | folders
 roles/galaxy
 roles/vendor
 
 # ANSIBLE | files
-# ANSIBLE | files
-/ansible.cfg
-/bootstrap.cfg
-inventory/env/dev.yml
-plays/debug.yml
 /ops.key
+.tfstate

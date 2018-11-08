@@ -17,6 +17,25 @@ task=$1
 shift
 
 case $task in
+    role)
+        task="apply-role"
+
+        # we run this differently than the rest
+        if [ -z "$1" ]; then
+            echo "Please provide the role to use"
+            exit 1
+        fi
+        apply_role=$1
+        shift
+
+        # confirm the role exists
+        if [ ! -d "${ROLEDIR}/$apply_role" ]; then
+            echo "Please provide a valid role"
+            exit 1
+        fi
+
+        EXTRA="apply_role=$apply_role"
+        ;;
     template)
         # change our processing as the template is the next one in line
         if [ -z "$1" ]; then
@@ -40,6 +59,9 @@ case $task in
         fi
         ;;
     *)
+        if [ -f "${PLAYDIR}/${task}.yml" ]; then
+            task="${task}"
+        fi
         ;;
 esac
 

@@ -17,8 +17,6 @@ if [ -z $(which ansible-playbook) ]; then
   exit 1
 fi
 
-# Allow the user to change the location of the ansible configuration
-# This allows a bastion host to be used
 if [ -z "${ALT_ANSIBLE_CONFIG}" ]; then
     CONFIG_FILE="${ROOTDIR}/ansible.cfg"
 else
@@ -33,8 +31,11 @@ if [ -z "${HOSTS_FILE}" ]; then
     fi
 fi
 
+# Ensure we are using OUR configuration file
+export ANSIBLE_CONFIG=${CONFIG_FILE}
+
 buildcommand() {
-  CMD="env ANSIBLE_CONFIG=${CONFIG_FILE} ansible-playbook"
+  CMD="env ANSIBLE_CONFIG=${CONFIG_FILE} ansible-playbook -i ${HOSTS_FILE}"
 }
 
 #
@@ -68,8 +69,6 @@ runit() {
   shift
   args=$*
 
-  echo ANSIBLE_CONFIG="${CONFIG_FILE}" ansible-playbook -i "${HOSTS_FILE}" "${playbook}" $EXTRA --limit "$group" $args
-  #env ANSIBLE_CONFIG="${CONFIG_FILE}"
   ansible-playbook "${playbook}" --extra-vars "$EXTRA" --limit "$group" $args
 }
 
@@ -88,6 +87,5 @@ runwithoutlimit() {
     exit 1
   fi
 
-  # add --ask-vault-pass once we are ready to really begin using the vault
-  env ANSIBLE_CONFIG="${CONFIG_FILE}" ansible-playbook  "${playbook}" --extra-vars "${extravars}" $args
+  ansible-playbook "${playbook}" --extra-vars "$EXTRA" $args
 }

@@ -1,7 +1,14 @@
-vars/secrets.yml filter=git-crypt diff=git-crypt
 files/passwords/** filter=git-crypt diff=git-crypt
 files/licenses/** filter=git-crypt diff=git-crypt
+files/secrets/** filter=git-crypt diff=git-crypt
 
 # general rules
 .gitkeep !filter !diff
+.keep !filter !diff
 *.key filter=git-crypt diff=git-crypt
+*.pfx filter=git-crypt diff=git-crypt
+*.pem filter=git-crypt diff=git-crypt
+
+# do not encrypt the dev stuff
+files/secrets/development.yml !filter !diff
+files/certs/dev_wildcard/** !filter !diff

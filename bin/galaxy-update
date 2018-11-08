@@ -14,6 +14,6 @@ cd ${ROOTDIR}
 
 # revert ANY changes made locally that are tracked by git
 echo "${ARROW} Updating the galaxy${RESET}"
-ansible-galaxy install -i -f -p roles/galaxy -r requirements.yml
+ansible-galaxy install -i -f -p roles/galaxy -r roles/requirements.yml
 
 echo "${ARROW} Done! Have a nice day${RESET}"

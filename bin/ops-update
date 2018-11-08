@@ -45,6 +45,7 @@ echo "${ARROW} Updating the galaxy${RESET}"
 ansible-galaxy install -i -f -p roles/galaxy -r requirements.yml
 
 echo "${ARROW} Updating ansible.cfg${RESET}"
-sh "${ROOTDIR}/bin/setup-ansible-cfg.sh"
+[ ! -e "${ROOTDIR}/ansible.cfg" ] && cp "${ROOTDIR}/ansible.cfg.dist" "${ROOTDIR}/ansible.cfg"
+[ ! -e "${ROOTDIR}/bootstrap.cfg" ] && cp "${ROOTDIR}/bootstrap.cfg.dist" "${ROOTDIR}/bootstrap.cfg"
 
 echo "${ARROW} Done! Have a nice day${RESET}"
