@@ -12,8 +12,13 @@ fi
 
 cd ${ROOTDIR}
 
-# revert ANY changes made locally that are tracked by git
 echo "${ARROW} Updating the galaxy${RESET}"
-ansible-galaxy install -i -f -p roles/galaxy -r roles/requirements.yml
+ansible-galaxy role install -i -f -p roles/galaxy -r roles/requirements.yml
+
+HAS_COLLECTIONS=$(grep -e '^collections:' roles/requirements.yml | wc -l)
+if [ "$HAS_COLLECTIONS" -ne "0" ]; then
+    echo "${ARROW} Updating collections from the galaxy${RESET}"
+    ansible-galaxy collection install -i -f -p roles -r roles/requirements.yml
+fi
 
 echo "${ARROW} Done! Have a nice day${RESET}"

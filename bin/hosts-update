@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# This script is designed to sync the terraform state files so that they can be used by ansible
+#
+
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+for TF_ENV in management staging production; do
+    echo "${ARROW} ${TF_ENV}${RESET}"
+    cd ${ROOTDIR}/../lip-terraform/${TF_ENV}
+    terraform state pull > ${ROOTDIR}/env/${TF_ENV}/.tfstate
+done
+
+cd ${ROOTDIR}
+
+echo "${ARROW} Done! Have a nice day${RESET}"

@@ -1,12 +1,13 @@
 ---
 # galaxy roles
-- colstrom.fast
-- mikegleasonjr.firewall
+roles:
+  - ahuffman.resolv
+  - colstrom.fast
+  - dev-sec.ssh-hardening
+  - geerlingguy.clamav
+  - geerlingguy.ntp
+  - mikegleasonjr.firewall
+  - oefenweb.locales
+  - oefenweb.sudoers
 
-# roles that are not available on the galaxy
-# I.E.
-#- src: https://github.com/dlundgren/ansible-percona
-#  path: ansible/roles/vendor
-#  name: dlundgren.percona
-#  version: master
-
+collections: []

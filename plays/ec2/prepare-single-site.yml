@@ -14,13 +14,4 @@
       tags:
         - always
   roles:
-    - ubuntu/shared
-    - ubuntu/server-base
-    - config/sudo
-    - config/users
     - galaxy/colstrom.fast
-    - galaxy/HanXHX.mysql
-    - galaxy/pbuyle.php-cli
-    - galaxy/geerlingguy.apache
-    - galaxy/geerlingguy.php
-    - config/snmpd

@@ -1,0 +1,56 @@
+#!/bin/sh
+
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+if [ -z $1 ]; then
+    echo "ERROR: Missing Environment (dev/management/staging/production)"
+    exit 1
+fi
+LINK_ENV=$1
+shift
+
+if [ -z $1 ]; then
+    echo "ERROR: Missing group name"
+    exit 1
+fi
+GROUP_NAME=$1
+shift
+
+relpath() {
+    python -c 'import os.path, sys; print os.path.relpath(sys.argv[1],sys.argv[2])' "$1" "${2-$PWD}"
+}
+
+cd "${ROOTDIR}"
+
+FROM="${ROOTDIR}/env/_shared/${GROUP_NAME}"
+TO="${ROOTDIR}/env/${LINK_ENV}/group_vars/${GROUP_NAME}"
+REL=$(relpath $FROM $TO)
+
+if [ -f "${FROM}.yml" ]; then
+    if [ -L "${TO}.yml" ]; then
+        unlink "${TO}.yml"
+    fi
+
+    cd $(dirname $TO)
+
+    REL=$(relpath `dirname $FROM.yml` `dirname $TO.yml` )
+    ln -snf "$REL/`basename $TO`.yml"
+    git add "${TO}.yml"
+else
+    if [ ! -e "${TO}" ]; then
+        mkdir -p "${TO}"
+    fi
+
+    cd "${TO}"
+
+    ln -snf "${REL}"/* .
+    git add "${TO}"
+fi
+

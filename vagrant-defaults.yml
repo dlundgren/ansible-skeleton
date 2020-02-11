@@ -1,0 +1,5 @@
+---
+ops_ip: 172.31.31.123
+ops_hostsupdater: skip
+ops_memory: 1024
+ops_provision: yes

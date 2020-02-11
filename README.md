@@ -14,4 +14,6 @@ Helps maintain infrastructure.
 
 ### Ansible
 
-Ensure all hosts are in the inventory/hosts file. If they aren't in there then ansible won't work.
+Ensure all hosts are in the env/<env> file. If they aren't in there then ansible won't work.
+
+`<env>` is a reference to the environment you want to run ansible against. Defaults to env/dev

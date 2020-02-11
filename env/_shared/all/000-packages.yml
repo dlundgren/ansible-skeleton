@@ -1,0 +1,11 @@
+---
+# List of packages that should be common to all systems
+
+packages_default:
+  - fail2ban
+  - git
+  - jq
+
+packages_host: []
+packages_group: "{{ lookup('vars_start_with', 'packages_group_', wantlist=True) | default([]) }}"
+system_packages: "{{ packages_default + packages_group + packages_host | unique }}"

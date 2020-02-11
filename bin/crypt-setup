@@ -1,0 +1,19 @@
+#!/bin/sh
+CURDIR=$(dirname $0)
+
+if [ ! -f "${CURDIR}/common.sh" ]; then
+  echo "Can't find the common script."
+  exit 1
+fi
+
+. "${CURDIR}/common.sh"
+
+cd ${ROOTDIR}
+
+if [ ! -e .git/git-crypt/keys ]; then
+    mkdir -p .git/git-crypt/keys
+fi
+
+mv ops.key .git/git-crypt/keys/default
+chmod 600 .git/git-crypt/keys/default
+git crypt unlock .git/git-crypt/keys/default

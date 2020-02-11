@@ -1,12 +1,38 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# This sets up an ubuntu 16.04 vm for use with ansible testing
+dir = File.dirname(File.expand_path(__FILE__))
+settings = YAML::load_file("#{dir}/vagrant-defaults.yml")
+
+if File.exist?("#{dir}/vagrant-local.yml")
+    env_settings = YAML::load_file("#{dir}/vagrant-local.yml")
+    settings.merge!(env_settings)
+end
+
 Vagrant.configure(2) do |config|
-  config.vm.box = "geerlingguy/ubuntu1604"
-  config.vm.network "private_network", ip: "172.31.31.123", hostsupdater: "skip"
-  config.vm.provider :virtualbox do |vb|
-    vb.name = "crystalops"
-    vb.memory = 1024
-  end
+    config.vm.hostname = "crystalops"
+    config.vm.box = "ubuntu/bionic64"
+    config.vm.network "private_network", ip: settings['ops_ip'], hostsupdater: settings['ops_hostsupdater']
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.vm.provider :virtualbox do |vb|
+        vb.name = "crystalops"
+        vb.memory = settings['ops_memory'] || 2048
+    end
+
+	if settings['ops_provision'] != false
+		config.vm.provision "ansible" do |ansible|
+			ansible.playbook = "plays/bootstrap.yml"
+			ansible.groups = {
+				all: ["vagrants"],
+				vagrants: ["default"]
+			}
+			ansible.extra_vars = {
+				hostip: "default",
+				user: "vagrant"
+			}
+		end
+	end
+
+	# Allow an untracked Vagrantfile to modify the configurations
+	eval File.read "#{dir}/Vagrantfile.local" if File.exist?("#{dir}/Vagrantfile.local")
 end
