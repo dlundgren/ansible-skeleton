@@ -2,6 +2,12 @@
 #
 # This script is designed to git pull and then git-crypt unlock using the key in /data/ansible/git-crypt-keys/ops.key
 #
+# When on certain networks and you need to bypass cert checking, you can use bin/ops-update --ignore-certs and
+# galaxy will no longer check the certs.
+#
+# There are several GPG collaborators available as well, that can actually decrypt the ops.key contained IN the repo
+#  - dlundgren@outsideopen.com
+#
 # @TODO check for git-crypt
 
 CURDIR=$(dirname $0)
@@ -37,15 +43,11 @@ echo "${ARROW} Unlocking the encrypted files${RESET}"
 git-crypt unlock "${OPSKEY}"
 
 echo "${ARROW} Updating keys to private"
-chmod 600 inventory/files/keys/*/*/*.key >/dev/null 2>&1
-chmod 600 inventory/files/keys/*/*.key >/dev/null 2>&1
-chmod 600 inventory/files/keys/*.key >/dev/null 2>&1
+chmod 600 files/keys/*/*/*.key >/dev/null 2>&1
+chmod 600 files/keys/*/*.key >/dev/null 2>&1
+chmod 600 files/keys/*.key >/dev/null 2>&1
 
 echo "${ARROW} Updating the galaxy${RESET}"
-ansible-galaxy install -i -f -p roles/galaxy -r requirements.yml
-
-echo "${ARROW} Updating ansible.cfg${RESET}"
-[ ! -e "${ROOTDIR}/ansible.cfg" ] && cp "${ROOTDIR}/ansible.cfg.dist" "${ROOTDIR}/ansible.cfg"
-[ ! -e "${ROOTDIR}/bootstrap.cfg" ] && cp "${ROOTDIR}/bootstrap.cfg.dist" "${ROOTDIR}/bootstrap.cfg"
+ansible-playbook plays/manage-galaxy-dependencies.yml
 
 echo "${ARROW} Done! Have a nice day${RESET}"

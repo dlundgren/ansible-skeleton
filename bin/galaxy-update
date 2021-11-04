@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# This is a shortcut to run the manage-galaxy-dependencies playbook
+#
 
 CURDIR=$(dirname $0)
 
@@ -12,13 +14,6 @@ fi
 
 cd ${ROOTDIR}
 
-echo "${ARROW} Updating the galaxy${RESET}"
-ansible-galaxy role install -i -f -p roles/galaxy -r roles/requirements.yml
-
-HAS_COLLECTIONS=$(grep -e '^collections:' roles/requirements.yml | wc -l)
-if [ "$HAS_COLLECTIONS" -ne "0" ]; then
-    echo "${ARROW} Updating collections from the galaxy${RESET}"
-    ansible-galaxy collection install -i -f -p roles -r roles/requirements.yml
-fi
+ansible-playbook plays/manage-galaxy-dependencies.yml
 
 echo "${ARROW} Done! Have a nice day${RESET}"

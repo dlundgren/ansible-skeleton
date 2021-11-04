@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Install roles from the galaxy
+      raw: "cd .. &&  ansible-galaxy role install -i -f -p roles/galaxy -r roles/requirements.yml"
+
+    - name: Install collections from the galaxy
+      raw: "cd .. &&  ansible-galaxy collection install -i -f -p collections -r roles/requirements.yml"
