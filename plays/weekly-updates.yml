@@ -1,9 +1,0 @@
----
-# Performs the weekly updates on all ubuntu hosts
-#
-# dist upgrades should be performed separately
-#
-- hosts: ubuntu
-  gather_facts: no
-  roles:
-    - ubuntu/server-updates

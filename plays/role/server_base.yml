@@ -3,10 +3,10 @@
   gather_facts: yes
   become: yes
   roles:
-    - galaxy/oefenweb.locales
-    - galaxy/colstrom.fast
-    - galaxy/mikegleasonjr.firewall
-    - galaxy/dev-sec.ssh-hardening
-    - galaxy/geerlingguy.ntp
-    - galaxy/geerlingguy.clamav
-    - galaxy/oefenweb.sudoers
+    - oefenweb.locales
+    - colstrom.fast
+    - mikegleasonjr.firewall
+    - dev-sec.ssh-hardening
+    - geerlingguy.ntp
+    - geerlingguy.clamav
+    - oefenweb.sudoers

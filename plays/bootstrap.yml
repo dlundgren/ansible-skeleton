@@ -8,18 +8,21 @@
       group:
         name: admin
         state: present
+
     - name: Install ansible user
       user:
         name: ansible
         comment: "Ansible Ops Management"
         group: admin
         state: present
+
     - name: Install ansible SSH key
       authorized_key:
         user: ansible
         state: present
-        key: "{{ lookup('file', 'sshkeys/ansible-ops.pub') }}"
+        key: "{{ lookup('file', 'keys/ansible-ops.pub') }}"
         manage_dir: yes
+
     - name: Allow passwordless sudo for ansible
       copy:
         mode: "0600"

@@ -7,7 +7,7 @@
       ec2_key:
         name: aws-ops
         state: present
-        key_material: "{{ lookup('file', 'sshkeys/aws-ops.pubkey') }}"
+        key_material: "{{ lookup('file', 'keys/aws-ops.pub') }}"
         region: "{{ item }}"
       with_items:
         - us-west-1
