@@ -11,7 +11,7 @@ end
 
 Vagrant.configure(2) do |config|
     config.vm.hostname = "crystalops"
-    config.vm.box = "ubuntu/bionic64"
+    config.vm.box = "ubuntu/focal64"
     config.vm.network "private_network", ip: settings['ops_ip'], hostsupdater: settings['ops_hostsupdater']
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.provider :virtualbox do |vb|
